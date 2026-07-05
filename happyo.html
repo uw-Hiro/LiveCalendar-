@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>ライブ検索</title>
+    <style>
+        body { 
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            color: #333;
+        }
+
+        .container { 
+            background: #ffffff;
+            max-width: 400px; 
+            width: 90%;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 { 
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #000;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        input[type="date"] { 
+            width: 100%;
+            padding: 10px; 
+            font-size: 16px; 
+            border: 1px solid #999;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        button { 
+            width: 100%;
+            padding: 12px; 
+            font-size: 16px; 
+            background-color: #333;
+            color: white; 
+            border: none; 
+            border-radius: 4px;
+            cursor: pointer; 
+        }
+
+        button:hover { 
+            background-color: #555;
+        }
+
+        .live-item { 
+            background: #f9f9f9; 
+            margin-top: 15px;
+            padding: 15px; 
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .live-name { font-weight: bold; font-size: 17px; color: #d32f2f; }
+        .venue { font-size: 14px; color: #666; margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>ライブ検索</h1>
+    
+    <label for="searchDate" style="display:block; text-align:left; font-size:13px; margin-bottom:5px;">日付を選択：</label>
+    <input id="searchDate" type="date">
+    <button onclick="searchLive()">検索する</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    const liveData = [
+        { date: "2026-01-23", artist: "Kroi", venue: "国立代々木競技場 第一体育館" },
+        { date: "2026-01-25", artist: "UNISON SQUARE GARDEN", venue: "新潟テルサ" },
+        { date: "2026-01-25", artist: "クジラ夜の街", venue: "エレクトリックレディランド" },
+        { date: "2026-01-30", artist: "indigo la End", venue: "日本武道館" },
+        { date: "2026-01-31", artist: "SUPER BEAVER", venue: "Kアリーナ横浜" },
+        { date: "2026-02-03", artist: "UVERworld", venue: "KT Zepp Yokohama" }
+    ];
+
+    function searchLive() {
+        const inputDate = document.getElementById("searchDate").value;
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "";
+
+        if (!inputDate) {
+            alert("日付を選択してください");
+            return;
+        }
+
+        const filteredLives = liveData.filter(live => live.date === inputDate);
+
+        if (filteredLives.length > 0) {
+            filteredLives.forEach(live => {
+                const html = `
+                    <div class="live-item">
+                        <div class="live-name">${live.artist}</div>
+                        <div class="venue">会場: ${live.venue}</div>
+                    </div>
+                `;
+                resultDiv.innerHTML += html;
+            });
+        } else {
+            resultDiv.innerHTML = "<p style='font-size:13px; color: #888;'>情報がありません</p>";
+        }
+    }
+</script>
+</body></html>
